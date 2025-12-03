@@ -1,11 +1,55 @@
 # Snake_game
-This is a snake game. Apples are generated randomly across the grid. As the snake eats the apple, it grows bigger. 
+This is a classic Snake game made using Java and Swing. Apples are generated randomly across the grid. As the snake moves and eats the apple, it grows bigger. The game tracks score and survival time. It includes a pause/play and restart functionality as well.
 
+## Features 
+- Smooth grid-based movement
+- Randomly generated apples
+- Snake length in increased after eating apple 
+- Collision Detection
+ - Self-collision
+ - Wall collision 
+- Home, Running, Pause and Game Over states
+- Score tracking and survival time displayed
+- Pause/Play and Reset buttons on the interface
+
+## Project Structure 
 ### Entity class
-Entity class supports entity characteristics such as collision detection, unit size, position and dimensions.
+Handles:
+ - Grid unit size 
+ - Entity X/Y positions
+ - Entity dimensions
+ - Collision detection 
+ - Base class for Apple and Snake components 
 
 ### Snake class
-Snake class extends Entity class, it has an Entity object head and ArrayList<Entity> for body. It defines snake movement and direction at any point.
+Extends Entity class.
+Contains:
+- Head (Entity)
+- ArrayList<Entity> body
 
-### GameWindow
-Main class that interacts with the user. Apple generation, movement of snake, score and time, and the GUI frame are defined here.
+Handles: 
+- Snake movement and direction logic
+- Growth mechanism
+
+### GamePanel
+Core logic:
+- Rendering grid, snake and apples
+- Generating apples 
+- Updating movement
+- Checking collision 
+- Checking if apples eaten
+- Handling GameStates 
+- Updates score and survival time
+- Key bindings (WASD | Arrow keys | Space bar | Enter)
+
+### GameStates
+Contains
+- Home
+- Pause
+- Running
+- Game Over
+
+### GameWindow 
+Main GUI Frame.
+- Hosts the GamePanel
+- Displays score, time, pause/play and restart buttons
