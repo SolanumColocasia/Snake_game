@@ -53,3 +53,19 @@ Contains
 Main GUI Frame.
 - Hosts the GamePanel
 - Displays score, time, pause/play and restart buttons
+- Handles window set-up and manages layout.
+
+## Running the game
+1. Compile the java files:
+   ```cmd
+   javac gamewindow/*.java entity/*.java
+   ```
+2. Run the game:
+   ```cmd
+   java gamewindow.GameWindow
+   ```
+## Future improvements
+- Recording high scores
+- Sound effects for eating apples, game over and hitting wall etc
+- Better sprites and improved animation
+- Adjustable difficulty levels
