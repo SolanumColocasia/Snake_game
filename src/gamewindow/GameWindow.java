@@ -8,6 +8,10 @@ import java.util.Random;
 enum GameState{HOME, PAUSE, RUNNING, END}
 
 class GamePanel extends JPanel implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	GameState state;
 	final int SCREEN_WIDTH = 600;
 	final int SCREEN_HEIGHT = 600;
@@ -34,7 +38,7 @@ class GamePanel extends JPanel implements ActionListener{
 		snakeIcon = new ImageIcon(getClass().getResource("/gamewindow/resources/snakehead.png")).getImage();
 		state = GameState.HOME;
 		score = 0;
-		delay = 120;
+		delay = 150;
 		timer = new Timer(delay,this);	
 		//startGame();		
 	}
@@ -44,7 +48,7 @@ class GamePanel extends JPanel implements ActionListener{
 		score = 0;
 		nextDirection = 'R';
 		startMillis=System.currentTimeMillis();
-		delay = 120;
+		delay = 150;
 		elapsedTime = 0;
 	    time.setText("Time Running: 0ms");
 		generateApples();
@@ -259,6 +263,10 @@ class GamePanel extends JPanel implements ActionListener{
 	}
 } 
 public class GameWindow extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2821681725216657707L;
 	JLabel time,currentscore;
 	JButton restart, pause;
 	GameWindow(){
