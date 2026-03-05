@@ -1,10 +1,10 @@
 package sounds;
 import javax.sound.sampled.*;
-import java.io.File;
+import java.net.URL;
 
 public class Background {
 	private static Clip clip;
-	public static void playMusic(String path) {
+	public static void playMusic(URL url) {
 		try {
 			
 			if(clip!=null && clip.isRunning()) {
@@ -12,11 +12,9 @@ public class Background {
 				clip.close();
 			}
 			
+			AudioInputStream backgroundScore = AudioSystem.getAudioInputStream(url);
 			
-			File file = new File(path);
-			AudioInputStream backgroundScore = AudioSystem.getAudioInputStream(file);
-			
-			Clip clip = AudioSystem.getClip();
+			clip = AudioSystem.getClip();
 			clip.open(backgroundScore);
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
 			clip.start();

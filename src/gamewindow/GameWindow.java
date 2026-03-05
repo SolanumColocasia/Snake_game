@@ -7,10 +7,8 @@ import sounds.*;
 import java.util.Random;
 enum GameState{HOME, PAUSE, RUNNING, END}
 
+// Central game panel where snake and apples are created
 class GamePanel extends JPanel implements ActionListener{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	GameState state;
 	final int SCREEN_WIDTH = 600;
@@ -20,12 +18,11 @@ class GamePanel extends JPanel implements ActionListener{
 	Timer timer;
 	Random rand;
 	Snake s;
-	int delay;
+	int delay, score, elapsedTime, scoreperapple = 50, delaybyval = 3;
 	long startMillis;
-	int score;
-	static int elapsedTime;
 	char nextDirection;
 	JLabel time, currentscore;
+	
 	GamePanel(JLabel time, JLabel currentscore){
 		this.time = time;
 		this.currentscore = currentscore;
@@ -37,6 +34,7 @@ class GamePanel extends JPanel implements ActionListener{
 		appleIcon = new ImageIcon(getClass().getResource("/gamewindow/resources/appleformattedfinal.png")).getImage();
 		snakeIcon = new ImageIcon(getClass().getResource("/gamewindow/resources/snakehead.png")).getImage();
 		state = GameState.HOME;
+		Background.playMusic(getClass().getResource("/gamewindow/resources/snakegameambient.wav"));
 		score = 0;
 		delay = 150;
 		timer = new Timer(delay,this);	
@@ -60,29 +58,35 @@ class GamePanel extends JPanel implements ActionListener{
 		state = GameState.RUNNING;
 		requestFocusInWindow();
 	}
+	
 	public void generateApples() {
 		int appleX = rand.nextInt((int)(SCREEN_WIDTH/Entity.UNIT_SIZE))*Entity.UNIT_SIZE;
 		int appleY = rand.nextInt((int)(SCREEN_HEIGHT/Entity.UNIT_SIZE))*Entity.UNIT_SIZE;
+		
 		apple = new Entity(appleX,appleY,appleIcon);
 	}
+	
 	public void checkEaten() {
 		if(apple.intersects(s.getHead())) {
 			s.appleEaten();
-			score = score + 50;
+			score = score + scoreperapple;
 			increaseSpeed();
 			generateApples();
 		}
 	}
+	
 	public void increaseSpeed() {
 		if(delay>=30) {
-			delay = delay - 3;
+			delay = delay - delaybyval;
 			timer.setDelay(delay);
 		}
 	}
+	
 	public void move() {
 		s.setDirection(nextDirection);
 		s.move();
 	}
+	
 	public void checkCollision() {
 		if(s.selfCollision()) {state = GameState.END;}
 		
@@ -90,8 +94,11 @@ class GamePanel extends JPanel implements ActionListener{
 		if(head.getX()>=SCREEN_WIDTH  || head.getX()<0) {state = GameState.END;}
 		if(head.getY()>=SCREEN_HEIGHT || head.getY()<0) {state = GameState.END;}
 		
-		if(state == GameState.END) {timer.stop();}
+		if(state == GameState.END) {
+			Background.stop();
+			timer.stop();}
 	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -110,8 +117,8 @@ class GamePanel extends JPanel implements ActionListener{
 		}
 				
 	}
+	
 	public void homescreen(Graphics g) {
-		Background.playMusic("src/gamewindow/resources/snakegameambient.wav");
 		g.setColor(new Color(0, 169, 165));
 		g.setFont(new Font("Comic Sans MS",Font.BOLD+Font.ITALIC,32));
 		FontMetrics fm = getFontMetrics(g.getFont());
@@ -204,9 +211,7 @@ class GamePanel extends JPanel implements ActionListener{
 		
 	    g.drawString(msg, rectX + Entity.UNIT_SIZE, rectY + 6*Entity.UNIT_SIZE);
 	    msg = "You survived: " + (elapsedTime/1000) + "s";	    
-	    g.drawString(msg, rectX + Entity.UNIT_SIZE, rectY + 9*Entity.UNIT_SIZE);
-	    Background.stop();
-	    
+	    g.drawString(msg, rectX + Entity.UNIT_SIZE, rectY + 9*Entity.UNIT_SIZE);	    
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
@@ -229,25 +234,25 @@ class GamePanel extends JPanel implements ActionListener{
 			switch(ke.getKeyCode()) {
 			case KeyEvent.VK_A:
 			case KeyEvent.VK_LEFT:
-				if(s.getDirection() != 'R') {
+				if(nextDirection != 'R') {
 					nextDirection = 'L';
 				}
 				break;
 			case KeyEvent.VK_D:
 			case KeyEvent.VK_RIGHT:
-				if(s.getDirection()!='L') {
+				if(nextDirection !='L') {
 					nextDirection = 'R';
 				}
 				break;
 			case KeyEvent.VK_W:
 			case KeyEvent.VK_UP:
-				if(s.getDirection()!='D') {
+				if(nextDirection !='D') {
 					nextDirection = 'U';
 				}
 				break;
 			case KeyEvent.VK_S:
 			case KeyEvent.VK_DOWN:
-				if(s.getDirection()!='U') {
+				if(nextDirection !='U') {
 					nextDirection = 'D';
 				}
 				break;
@@ -263,9 +268,6 @@ class GamePanel extends JPanel implements ActionListener{
 	}
 } 
 public class GameWindow extends JFrame{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2821681725216657707L;
 	JLabel time,currentscore;
 	JButton restart, pause;
@@ -275,7 +277,7 @@ public class GameWindow extends JFrame{
 		getContentPane().setBackground(new Color(11, 83, 81));
 		setLayout(new BorderLayout(10,10));	
 		
-		currentscore = new JLabel("Score: 0");
+		currentscore = new JLabel("Current score: 0");
 		currentscore.setForeground(Color.WHITE);
 		time = new JLabel("Time Running: 0ms");
 		time.setForeground(Color.WHITE);
