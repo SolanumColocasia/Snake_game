@@ -25,9 +25,8 @@ public class Engine{
 		currentState = GameState.HOME;
 		Background.playMusic(getClass().getResource("/gamewindow/resources/snakegameambient.wav"));
 		rand = new Random();
-		
-		int startX = rand.nextInt(10, GamePanel.SCREEN_WIDTH/UNIT_SIZE - 10);
-		int startY = rand.nextInt(1, GamePanel.SCREEN_HEIGHT/UNIT_SIZE);
+		int startX = rand.nextInt(GamePanel.SCREEN_WIDTH/UNIT_SIZE - 20) + 10;
+		int startY = rand.nextInt(GamePanel.SCREEN_HEIGHT/UNIT_SIZE - 1) + 1;
 		snake = new Snake(startX, startY);	
 		apple = new Apple();
 		
@@ -60,7 +59,8 @@ public class Engine{
 					apple.generateApples(gridWidth, gridHeight);
 					attempts++;
 					if(attempts >= maxAttempts) {
-						System.out.println("ERROR: Could not find valid apple position!");
+						System.err.println("ERROR: Could not find valid apple position!");
+						setGameState(GameState.END);
 					}
 				}while(snake.contains(apple.getApple()));
 			}
@@ -123,8 +123,8 @@ public class Engine{
 		pausedTime = 0;
 		elapsedTime = 0;
 		finishedTime = 0;
-		int startX = rand.nextInt(10, GamePanel.SCREEN_WIDTH/UNIT_SIZE - 10);
-		int startY = rand.nextInt(1, GamePanel.SCREEN_HEIGHT/UNIT_SIZE);
+		int startX = rand.nextInt(GamePanel.SCREEN_WIDTH/UNIT_SIZE - 20) + 10;
+		int startY = rand.nextInt(GamePanel.SCREEN_HEIGHT/UNIT_SIZE - 1) + 1;
 		snake = new Snake(startX, startY);	
 		apple = new Apple();
 		setGameState(GameState.RUNNING);

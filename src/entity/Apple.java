@@ -11,9 +11,9 @@ public class Apple{
 	}
 	
 	public void generateApples(int horizontal, int vertical) {
-		int x = rand.nextInt(1, horizontal-1);
-		int y = rand.nextInt(1, vertical-1);	
-		loc.setLocation(x,y);
+		int x = rand.nextInt(Math.max(1, horizontal - 2)) + 1;
+		int y = rand.nextInt(Math.max(1, vertical - 2)) + 1;
+		loc.setLocation(x, y);
 	}
 	
 	public Point getApple() {return loc;}

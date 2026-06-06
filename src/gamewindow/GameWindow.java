@@ -1,5 +1,6 @@
 package gamewindow;
 import java.awt.*;
+import java.awt.Window;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -37,7 +38,6 @@ class InputHandler extends KeyAdapter{
 	}
 }
 
-
 class GamePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	final static int SCREEN_WIDTH = 600;
@@ -58,20 +58,20 @@ class GamePanel extends JPanel implements ActionListener{
 		setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
 		setBackground(new Color(9, 35, 39));
 		setFocusable(true);
-		
 		timer = new Timer(delay,this);
 		
 		engine = new Engine();
 		engine.setTimer(timer);
+
+		Window ownerframe = SwingUtilities.getWindowAncestor(this);
 		renderer = new Renderer(engine);
-		addKeyListener(new InputHandler(engine));
-		
-	
+		renderer.initPauseDialog(ownerframe);
+		addKeyListener(new InputHandler(engine));	
 	}
 	public void actionPerformed(ActionEvent ae) {
 		engine.update();
 		currentscore.setText("Current score: " + engine.getScore());
-		time.setText("Time Running: " + engine.getElapsedTime() + "ms");
+		time.setText("Time Running: " + engine.getElapsedTime()/1000 + "s");
 		
 		if(timer.getDelay() != engine.getDelay()) {
 			timer.setDelay(engine.getDelay());
@@ -94,11 +94,12 @@ public class GameWindow extends JFrame{
 	Color background = Color.decode("#01161E");
 	Color foreground1 = Color.decode("#AEC3B0");
 	Color foreground2 = Color.decode("#EFF6E0");
+	
 	GameWindow(){
 		setTitle("Snake Game");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(background);
-		setLayout(new BorderLayout(10,10));	
+		setLayout(new BorderLayout(10,10));
 		
 		currentscore = new JLabel("Current score: 0");
 		currentscore.setForeground(foreground2);
@@ -146,8 +147,8 @@ public class GameWindow extends JFrame{
 			}
 		});
 	}
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		new GameWindow();
 	}
 }
