@@ -1,91 +1,154 @@
-# Snake_game
+# Snake Game
 
-This is a classic Snake game made using Java and Swing. Apples are generated randomly across the grid. As the snake moves and eats the apple, it grows bigger. The game tracks score and survival time. It includes a pause/play and restart functionality as well.
+A classic Snake game built using Java and Swing. The player controls a snake that moves around a grid, eating randomly generated apples to grow longer and increase their score. The game tracks both score and survival time while providing pause, resume, and restart functionality.
+
+## Screenshots
+
+### Home Screen
+
+![Home Screen](./src/screenshots/home-screen.png)
+
+### Gameplay
+
+![Game Play](./src/screenshots/gameplay.png)
+
+### Game Over
+
+![Game Over](./src/screenshots/gameover.png)
 
 ## Features
 
-- Smooth grid-based movement
-- Randomly generated apples
-- Snake length in increased after eating apple
-- Collision Detection
-  - Self-collision
-  - Wall collision
-- Home, Running, Pause and Game Over states
-- Score tracking and survival time displayed
-- Pause/Play and Reset buttons on the interface
+* Smooth grid-based snake movement
+* Random apple generation
+* Snake growth after eating apples
+* Score tracking
+* Survival time tracking
+* Collision detection
+
+  * Wall collision
+  * Self-collision
+* Multiple game states
+
+  * Home
+  * Running
+  * Paused
+  * Game Over
+* Pause/Resume functionality
+* Restart functionality
+
+## Controls
+
+| Key   | Action         |
+| ----- | -------------- |
+| W / ↑ | Move Up        |
+| A / ← | Move Left      |
+| S / ↓ | Move Down      |
+| D / → | Move Right     |
+| Space | Pause / Resume |
+| Enter | Restart        |
+
+## Technologies Used
+
+* Java
+* Java Swing
+* Java AWT
 
 ## Project Structure
 
-### Entity class
+### Package: `entity`
 
-Handles:
+#### `Apple`
 
-- Grid unit size
-- Entity X/Y positions
-- Entity dimensions
-- Collision detection
-- Base class for Apple and Snake components
+Responsible for:
 
-### Snake class
+* Apple positioning
+* Random apple generation
 
-Extends Entity class.
-Contains:
+#### `Snake`
 
-- Head (Entity)
-- ArrayList<Entity> body
+Extends the base `Entity` class.
 
-Handles:
+Responsible for:
 
-- Snake movement and direction logic
-- Growth mechanism
+* Snake positioning
+* Managing the snake body using `Deque<Point>`
+* Providing access to snake data
 
-### GamePanel
+---
 
-Core logic:
+### Package: `gamewindow`
 
-- Rendering grid, snake and apples
-- Generating apples
-- Updating movement
-- Checking collision
-- Checking if apples eaten
-- Handling GameStates
-- Updates score and survival time
-- Key bindings (WASD | Arrow keys | Space bar | Enter)
+#### `GamePanel`
 
-### GameStates
+Main drawing surface where the game is displayed.
 
-Contains
+#### `Engine`
 
-- Home
-- Pause
-- Running
-- Game Over
+Handles the core game logic:
 
-### GameWindow
+* Snake movement updates
+* Apple generation
+* Collision detection
+* Apple consumption checks
+* Score updates
+* Survival time updates
+* Game state management
 
-Main GUI Frame.
+#### `Renderer`
 
-- Hosts the GamePanel
-- Displays score, time, pause/play and restart buttons
-- Handles window set-up and manages layout.
+Responsible for rendering:
 
-## Running the game
+* Snake
+* Apples
+* User interface elements
+* Different game states
 
-1. Compile the java files:
+#### `InputHandler`
 
-   ```cmd
-   javac gamewindow/*.java entity/*.java
-   ```
+Handles keyboard input and key bindings.
 
-2. Run the game:
+---
 
-   ```cmd
-   java gamewindow.GameWindow
-   ```
+### Game States
 
-## Future improvements
+The game operates using four states:
 
-- Recording high scores
-- Sound effects for eating apples, game over and hitting wall etc
-- Better sprites and improved animation
-- Adjustable difficulty levels
+* Home
+* Running
+* Paused
+* Game Over
+
+### `GameWindow`
+
+Main application window.
+
+Responsible for:
+
+* Creating and displaying the game window
+* Hosting the `GamePanel`
+* Displaying score and survival time
+* Managing pause/play and restart controls
+
+## Design Notes
+
+* The project follows separation of concerns by isolating game logic, rendering, and input handling into dedicated classes.
+* Snake body segments are stored using a `Deque<Point>` for efficient head and tail operations.
+* Game states are managed independently to simplify screen transitions and user interaction.
+* Rendering and game updates are separated to keep the codebase organized and maintainable.
+
+## Running the Game
+
+Run the executable JAR:
+
+```cmd
+java -jar runnable_snake_game.jar
+```
+
+## Future Improvements
+
+* High score system
+* Sound effects
+* Improved sprites and animations
+* Adjustable difficulty levels
+* Settings menu
+* Persistent score storage
